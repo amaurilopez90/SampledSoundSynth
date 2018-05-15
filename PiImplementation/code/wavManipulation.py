@@ -1,5 +1,5 @@
 # ####################################################################################################
-# """ 
+""" 
 # => Contributors: Amauri Lopez, Darrien Pinkman
 # => Course: Senior Project I
 # => Semester: Fall 2017
@@ -21,16 +21,16 @@
 # #####################################################################################################
 import os
 import numpy as n
-import soundfile as sf 
+import soundfile as sf
 import sys
 
 ######################################################################################
-"""
+""" 
 => Definition: note_scaling()
 => Description: This function initiates the call to start shifting the pitch of the 
                .WAV file and creates a Sample folder to hold the created pitch-shifted
                .WAV files
-=> Parameters: 
+=> Parameters:
 =>        - input_data: numpy array representing the sample data of the .WAV file
          - input_samp: the sampling rate of the .WAV file
          - outputfolder: desired name of the output folder that is created
@@ -41,9 +41,10 @@ import sys
                 range array
 => Postcondition: Creates a folder to the specified location by outputfolder, containing the new .WAV files
                  Returns the name/location of the output folder         
-"""     
+"""
 ######################################################################################
 def note_scaling(input_data, input_samp, outputfolder, shifts):
+        print("Beginning to scale notes...\n")
 	#folder = os.path.dirname(outputfolder)
 	#if parent folder doesn't already exist, make it
 	if not os.path.exists(outputfolder):
@@ -57,7 +58,7 @@ def note_scaling(input_data, input_samp, outputfolder, shifts):
 	return outputfolder
 
 ######################################################################################
-"""
+""" 
 => Definition: change_speed()
 => Description: This function changes the speed of playback of the .WAV file by some factor. This
                 accomplishes the shift in pitch. 
@@ -66,7 +67,7 @@ def note_scaling(input_data, input_samp, outputfolder, shifts):
          - factor: The factor at which the speed of the sound will be changed. 
 => Precondition: Assumes that the input data is of a valid WavFile object, and that the factor is a real and rational number.
 => Postcondition: Returns a new wav_data array that holds values closest to those spaced out by the input factor         
-"""     
+"""
 ######################################################################################
 def change_speed(wav_data, factor): 
 	
@@ -75,7 +76,7 @@ def change_speed(wav_data, factor):
 	return wav_data[indices.astype(int)]
 
 ######################################################################################
-"""
+""" 
 => Definition: time_stretch()
 => Description: This function stretches the input .WAV file by an input factor. Stretching the sound while maintaining its pitch
 => Parameters: 
@@ -88,7 +89,7 @@ def change_speed(wav_data, factor):
                  that are less than the length of the orginal sound.
 => Postcondition: Returns a reconstructed sequence of samples that is scaled to match the original amplitude of the signal at each 
                   sample index.          
-"""     
+"""
 ######################################################################################
 def time_stretch(wav_data, factor, DFT_size, hop_size):
 	#stretches the sound by a factor 
@@ -133,7 +134,7 @@ def time_stretch(wav_data, factor, DFT_size, hop_size):
 	return signal_out
 
 ######################################################################################
-"""
+""" 
 => Definition: pitch_shift()
 => Description: This function begins to change the pitch of the sound by implementing
                 the Phase Vocoder method. That is first time-stretching the sound, then 
@@ -145,7 +146,7 @@ def time_stretch(wav_data, factor, DFT_size, hop_size):
                  inside of a valid range array
 => Postcondition: Returns a new wav_data array that holds values closest to those spaced out by the input factor
                   from the time stretched data array         
-"""     
+""" 
 ######################################################################################
 def pitch_shift(wav_data, n, DFT_size = 2**11, hop_size=2048/8):
 	print(len(wav_data))

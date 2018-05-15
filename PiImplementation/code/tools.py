@@ -16,7 +16,7 @@
 #                 to outline their keyboard, read the created keyboard text files, and create the configuration files
 #                 that holds the mappings between the keys and their corresponding .WAV files   
 
-# => Last Data modified on: 12/16/2017
+# => Last Data modified on: 04/28/2018
 # 
 # #####################################################################################################
 
@@ -27,8 +27,10 @@ import shutil
 import RPi.GPIO as GPIO
 from gpioSetUp import *
 
+
+pins  = {2,3,4,17,27,22,10,9,11,5}
 ######################################################################################
-"""
+""" 
 => Definition: make_keyboard()
 => Description: This definition opens an interactive sessoin that lets you hit the keys of
                 your keyboard in the desired order. This definition saves the input into a text
@@ -38,56 +40,36 @@ from gpioSetUp import *
 
 => Postcondition: Creates a file to the specified location by outputfile, containing the keys
                   input by the user for their keyboard         
-"""     
+""" 
 ######################################################################################
 def make_keyboard(outputfile):
-    pins = {2,3,4,17,27,22,10,9,11,5}
-
-    # do this in main --> setUpGPIO(pins)
+    print("Making Keyboard\n")
+    print("About to add events GPIO\n")
     addEventsGPIO(pins)
     
     txt_file = open(outputfile, 'w')
     
+    print("Initializing PyGame...\n")
     pygame.init()
-    screen = pygame.display.set_mode((640,480))
+    screen = pygame.display.set_mode((640,480)) #should bring up pygame screen
+    print("Press buttons to make the keyboard, hit button 2 for escape:\n")
     while True:
-        if GPIO.event_detected(2): #they hit escape
-            break
-        elif GPIO.event_detected(3):
-            txt_file.write("%d\n", 3)
-        elif GPIO.event_detected(4):
-            txt_file.write("%d\n", 4)
-        elif GPIO.event_detected(17):
-            txt_file.write("%d\n", 17)
-        elif GPIO.event_detected(27):
-            txt_file.write("%d\n", 27)
-        elif GPIO.event_detected(22):
-            txt_file.write("%d\n", 22)
-        elif GPIO.event_detected(10):
-            txt_file.write("%d\n", 10)
-        elif GPIO.event_detected(9):
-            txt_file.write("%d\n", 9)
-        elif GPIO.event_detected(11):
-            txt_file.write("%d\n", 11)
-        elif GPIO.event_detected(5):
-            txt_file.write("%d\n", 5)
-        
-    # while True:
-    #     event = pygame.event.wait()
-    #     if event.type == pygame.KEYDOWN:
-    #         if event.key == pygame.K_ESCAPE:
-    #             break
-    #         else:
-    #             name = pygame.key.name(event.key)
-    #             print (name)
-    #             txt_file.write(name + '\n')
+    	channel, edge = waitForEventChannel()
+
+	print(channel + "\n")
+    	if edge == "FALLING":
+    		if channel == "2": #they hit escape
+	    		break
+	    	else:
+	    		txt_file.write(channel + '\n')
     txt_file.close()
+    print("Removing Events GPIO...\n")
     removeEventsGPIO(pins)
     pygame.quit()
     return outputfile
 
 ######################################################################################
-"""
+""" 
 => Definition: read_keyboard()
 => Description: This definition reads a keyboard file and returns a list of keys
 => Parameters: 
@@ -95,14 +77,14 @@ def make_keyboard(outputfile):
 
 => Precondition: Assumes that the input txt_file exists and is one created using the make_keyboard definition in tools.py
 => Postcondition: Retuns a list of keys read fromt the keyboard text file         
-"""     
+"""
 ######################################################################################
 def read_keyboard(txt_file):
     
     return [ key.strip('\n').split('|') for key in open(txt_file, 'r')]
 
 ######################################################################################
-"""
+""" 
 => Definition: make_conf()
 => Description: This definition creates a configuration file out of a samples folder and an input keyboard file.
                 This configuration file holds a mapping between the keys in the keyboard file and the .WAV files in the samples folder
@@ -114,10 +96,10 @@ def read_keyboard(txt_file):
 => Precondition: Assumes that the input samplefolder exists. Also assumes that the keyboardfile exists and is one created using the 
                  make_keyboard definition in tools.py
 => Postcondition: Creates a configuration file at the specified output filepath. Returns the name of that filepath         
-"""     
+""" 
 ######################################################################################
 def make_conf(samplefolder, output, keyboardfile, startfile=0):
-    
+    print("Making Configuration File...\n")
     keyslist = read_keyboard(keyboardfile) #get the keys in a list
 
     conf_file = csv.writer(open(output, 'w'), delimiter=',')

@@ -16,7 +16,7 @@
                 channels, and .WAV data.
 
 
-=> Last Data modified on: 12/16/2017
+=> Last Data modified on: 4/29/2018
 """
 #####################################################################################################
 import soundfile as sf
@@ -34,7 +34,7 @@ class WavFile():
 	notes_dictionary = get_note_dict() #get dicitonary of notes
 
 	#############################################################################################################################
-	"""
+	""" 
 	=> Definition: __init__()
 	=> Description: Serves as the class constructor for the WavFile Class
 	=> Parameters: 
@@ -59,7 +59,7 @@ class WavFile():
 		self.closest_note = min(WavFile.notes_dictionary, key = lambda v: abs(WavFile.notes_dictionary[v] - self.frequency))
 
 	####################################################################################
-	"""
+	""" 
 	=> Definition: get_freq_from_crossings()
 	=> Description: This function counts the zero crossings of the .WAV and divides it
 	                  by the average period to get the frequency
@@ -69,8 +69,9 @@ class WavFile():
 	 
 	=> Precondition: Assumes that the input data is of a valid WavFile object
 	=> Postcondition: Returns the estimated frequency of the wav         
-	"""     
+	""" 
 	####################################################################################
+	@classmethod
 	def get_freq_from_crossings(data, samprate):
 		#Count zero crossings, divide average period by time ot get frequency
 
@@ -89,8 +90,8 @@ class WavFile():
 
 	    return samprate / mean(diff(crossings))
 
-    ####################################################################################
-	"""
+       ####################################################################################
+	""" 
 	=> Definition: get_freq_from_fft()
 	=> Description: This function estimates the frequency from the peak of FFT
 	=> Parameters: 
@@ -99,9 +100,10 @@ class WavFile():
 	 
 	=> Precondition: Assumes that the input data is of a valid WavFile object
 	=> Postcondition: Returns the estimated frequency of the wav         
-	"""     
+	""" 
 	####################################################################################
-	def get_freq_from_fft(data, samprate):
+	@classmethod
+	def get_freq_from_fft(self, data, samprate):
 	    #Estimate frequency from peak of FFT   
 
 	    # Compute Fourier transform of windowed signal
@@ -115,8 +117,8 @@ class WavFile():
 	    # Convert to equivalent frequency
 	    return samprate * true_i / len(windowed)  
 
-    ####################################################################################
-	"""
+        ####################################################################################
+	""" 
 	=> Definition: get_info()
 	=> Description: This function prints of information of the .WAV file 
 
@@ -129,7 +131,7 @@ class WavFile():
 		              . Sample length
 		              . Frequency
 		              . Closest not to frequency         
-	"""     
+	""" 
 	####################################################################################
 	def get_info(self):
 		if self.mono:
