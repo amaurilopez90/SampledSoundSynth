@@ -30,7 +30,7 @@ represented by: **2^(n/12)**, where n represents the semitone shift. The newly g
   2. Custom Soundboard with 24 tactile push buttons
   3. HDMI cable to Monitor used for audio output
   
-![SynthesizerHardware](https://github.com/amaurilopez90/SampledSoundSynth/master/IMG_6068.jpeg)
+![SynthesizerHardware](https://github.com/amaurilopez90/SampledSoundSynth/master/SeniorProjBlockDiagram.JPG)
 
 # Theory of Modulation
 Each sample needed to exhibit a change in pitch between every button by a factor of 2^(n/12) where n represents the amount of semitone shifts away from the original pitch of the sample. To do this, 
