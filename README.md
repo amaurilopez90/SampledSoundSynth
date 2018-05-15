@@ -14,16 +14,16 @@ a raspberry pi as the base computational platform and keys built onto a breadboa
 The user is first able to create their own keyboard using the GPIO button presses on the soundboard created, and then the synthesizer defines
 a range of values representing the amount of semi-tone shifts to create. The sound modulation algorithm will then manipulate the sample to generate the
 appropriate adapted sampled sound (.wav) files based on the range of semitones. Each of these semitones is a factor of the original sounds frequency 
-represented by: 2n/12, where n represents the semitone shift. The newly generated sounds are then mapped to the user defined keyboard to which the corresponding sound(s) will be output.
+represented by: **2^(n/12)**, where n represents the semitone shift. The newly generated sounds are then mapped to the user defined keyboard to which the corresponding sound(s) will be output.
 
 **Specifications:**
   1. The device will have two sets of 12 keys. One set will have an original data sample of one instrument while the other set will have a different sample for a different instrument.
      The goal for this is to be able to play at least an octave on each instrument. We see later that manipulating configuration files will allow you to play any number of sounds mapped to any
      GPIO, given that each sound fits onto a corresponding GPIO input pin
      
-  2. Sound files used are of .WAV audio file compression, with 16-bit depth and standard 44.1K sampling rate
-  3. User will be able to play several two or three note chords - synthesizer is Polyphonic in nature
-  4. Implements the Phase Vocoder for sound modulation
+  2. Sound files used are of .WAV audio file compression, with **16-bit** depth and standard **44.1K** sampling rate
+  3. User will be able to play several two or three note chords - synthesizer is **Polyphonic** in nature
+  4. Implements the **Phase Vocoder** for sound modulation
   
 **Hardware:**
   1. Raspberry Pi 3 Model B
